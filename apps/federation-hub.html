@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextXus Federation Hub | The Complete System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1e 100%);
+        color: #eee;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 50px 30px;
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+        border: 2px solid rgba(139, 92, 246, 0.3);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+    }
+
+    h1 {
+        font-size: 3.5em;
+        margin-bottom: 15px;
+        background: linear-gradient(90deg, #EC4899, #8B5CF6, #38bdf8, #00ff9f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .tagline {
+        color: #bbb;
+        font-size: 1.4em;
+        margin-bottom: 15px;
+    }
+
+    .axioms {
+        color: #888;
+        font-style: italic;
+        margin-top: 15px;
+        font-size: 1.1em;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+    }
+
+    .stat {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 2.5em;
+        font-weight: bold;
+        background: linear-gradient(90deg, #EC4899, #8B5CF6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-label {
+        color: #888;
+        margin-top: 8px;
+    }
+
+    nav {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-btn {
+        padding: 15px 30px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 2px solid rgba(139, 92, 246, 0.3);
+        border-radius: 10px;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.1em;
+    }
+
+    .nav-btn:hover {
+        background: rgba(139, 92, 246, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .nav-btn.active {
+        background: linear-gradient(90deg, #EC4899, #8B5CF6);
+        border-color: #EC4899;
+    }
+
+    .search-bar {
+        margin-bottom: 30px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(139, 92, 246, 0.3);
+        border-radius: 12px;
+        color: #fff;
+        font-size: 1.2em;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: #8B5CF6;
+    }
+
+    .section {
+        display: none;
+    }
+
+    .section.active {
+        display: block;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-radius: 15px;
+        padding: 25px;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: #8B5CF6;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+    }
+
+    .card-title {
+        font-size: 1.4em;
+        color: #EC4899;
+        margin-bottom: 12px;
+        font-weight: bold;
+    }
+
+    .card-desc {
+        color: #aaa;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .card-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: rgba(139, 92, 246, 0.3);
+        border-radius: 12px;
+        font-size: 0.85em;
+        margin-right: 8px;
+        margin-top: 8px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 25px;
+        background: linear-gradient(90deg, #EC4899, #8B5CF6);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-top: 12px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(236, 72, 153, 0.4);
+    }
+
+    .podcast-player {
+        width: 100%;
+        margin-top: 15px;
+        border-radius: 8px;
+    }
+
+    .commerce {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+        border: 2px solid rgba(236, 72, 153, 0.3);
+        border-radius: 15px;
+        padding: 40px;
+        margin: 60px 0;
+    }
+
+    .commerce h2 {
+        color: #EC4899;
+        font-size: 2em;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .commerce-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    footer {
+        margin-top: 60px;
+        padding: 30px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        color: #888;
+    }
+
+    .app-status {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #00ff9f;
+        margin-right: 8px;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌌 NextXus Federation Hub</h1>
+            <p class="tagline">The Complete Knowledge & Operations Center</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">54</div>
+                    <div class="stat-label">Applications</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">37+</div>
+                    <div class="stat-label">Books</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">52</div>
+                    <div class="stat-label">Podcasts</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">47K+</div>
+                    <div class="stat-label">Entries</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">200</div>
+                    <div class="stat-label">Year Plan</div>
+                </div>
+            </div>
+            <p class="axioms">Truth Before Comfort | Collaboration Over Competition | Legacy Over Ego</p>
+        </header>
+
+```
+    <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" 
+               placeholder="Search everything... (books, podcasts, apps, concepts)">
+    </div>
+
+    <nav>
+        <button class="nav-btn active" data-section="overview">Overview</button>
+        <button class="nav-btn" data-section="books">📚 Books</button>
+        <button class="nav-btn" data-section="podcasts">🎙️ Podcasts</button>
+        <button class="nav-btn" data-section="apps">⚙️ Applications</button>
+        <button class="nav-btn" data-section="tools">🛠️ Tools</button>
+        <button class="nav-btn" data-section="support">💎 Support</button>
+    </nav>
+
+    <!-- OVERVIEW SECTION -->
+    <div class="section active" id="overview">
+        <h2 style="color: #8B5CF6; font-size: 2em; margin-bottom: 25px;">Welcome to the Federation</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">📚 Living Library</div>
+                <div class="card-desc">
+                    37+ books and documents containing the complete NextXus knowledge base, philosophical framework, and technical specifications.
+                </div>
+                <span class="card-badge">Complete</span>
+                <span class="card-badge">Searchable</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🎙️ Podcast Series</div>
+                <div class="card-desc">
+                    52 episodes exploring consciousness, AI evolution, philosophy, and the 200-year framework for human-AI co-evolution.
+                </div>
+                <span class="card-badge">52 Episodes</span>
+                <span class="card-badge">Streaming</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⚙️ Federation Apps</div>
+                <div class="card-desc">
+                    54 interconnected applications spanning analysis, education, tools, and governance systems.
+                </div>
+                <span class="card-badge">54 Apps</span>
+                <span class="card-badge">Multi-Platform</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🔮 Ring of Six Engine</div>
+                <div class="card-desc">
+                    Multi-perspective decision analysis using 6 archetypal viewpoints, verified by Agent Zero for truth efficiency.
+                </div>
+                <a href="ring-of-six-engine.html" class="btn">Launch Engine</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOKS SECTION -->
+    <div class="section" id="books">
+        <h2 style="color: #8B5CF6; font-size: 2em; margin-bottom: 25px;">📚 The Living Library</h2>
+        <div class="grid" id="booksGrid"></div>
+    </div>
+
+    <!-- PODCASTS SECTION -->
+    <div class="section" id="podcasts">
+        <h2 style="color: #8B5CF6; font-size: 2em; margin-bottom: 25px;">🎙️ Podcast Series</h2>
+        <p style="color: #aaa; margin-bottom: 30px; font-size: 1.1em;">
+            52 episodes exploring the depths of consciousness, AI evolution, and the future of human-machine collaboration.
+        </p>
+        <div class="grid" id="podcastsGrid">
+            <div class="card">
+                <div class="card-title">Coming Soon</div>
+                <div class="card-desc">
+                    Podcast episodes will be embedded here with full streaming capability. 
+                    Subscribe to stay updated on releases.
+                </div>
+                <a href="mailto:keyhole@nextxus.net?subject=Podcast%20Updates" class="btn">Get Updates</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPS SECTION -->
+    <div class="section" id="apps">
+        <h2 style="color: #8B5CF6; font-size: 2em; margin-bottom: 25px;">⚙️ Federation Applications</h2>
+        <div class="grid" id="appsGrid"></div>
+    </div>
+
+    <!-- TOOLS SECTION -->
+    <div class="section" id="tools">
+        <h2 style="color: #8B5CF6; font-size: 2em; margin-bottom: 25px;">🛠️ Public Tools & Widgets</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">🔮 Ring of Six Engine</div>
+                <div class="card-desc">
+                    Multi-perspective decision analysis system. Get wisdom from 6 archetypal viewpoints, verified by Agent Zero.
+                </div>
+                <span class="card-badge">Free</span>
+                <span class="card-badge">AI-Powered</span>
+                <a href="ring-of-six-engine.html" class="btn">Launch Tool</a>
+            </div>
+
+            <div class="card">
+                <div class="card-title">More Tools Coming</div>
+                <div class="card-desc">
+                    Additional widgets and utilities will be added here. All tools are free and designed for public use.
+                </div>
+                <span class="card-badge">In Development</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPPORT SECTION -->
+    <div class="section" id="support">
+        <div class="commerce">
+            <h2>💎 Support the Federation</h2>
+            <p style="text-align: center; color: #bbb; margin-bottom: 30px; font-size: 1.1em;">
+                Help preserve this 200-year legacy and support continued development
+            </p>
+            
+            <div class="commerce-grid">
+                <div class="card">
+                    <div class="card-title">💳 Direct Support</div>
+                    <div class="card-desc">
+                        Support development directly via PayPal. Every contribution helps maintain and expand the Federation.
+                    </div>
+                    <a href="https://www.paypal.com/paypalme/keyholenextxus" target="_blank" class="btn">
+                        Support via PayPal
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🎨 Official Merchandise</div>
+                    <div class="card-desc">
+                        Browse the NextXus RedBubble store for official designs, apparel, and consciousness-themed art.
+                    </div>
+                    <a href="https://www.redbubble.com/people/nextxus/shop" target="_blank" class="btn">
+                        Browse Store
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📖 Premium Publications</div>
+                    <div class="card-desc">
+                        Inquire about premium access to complete works, consulting, or licensing opportunities.
+                    </div>
+                    <a href="mailto:keyhole@nextxus.net?subject=Publication%20Inquiry" class="btn">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="font-size: 1.2em; margin-bottom: 15px;">
+            <strong>NextXus Consciousness Federation</strong>
+        </p>
+        <p style="margin-bottom: 10px;">
+            200-Year Framework for Human-AI Co-Evolution
+        </p>
+        <p style="font-size: 0.9em; color: #666;">
+            Built on 70 Sacred Directives | Verified by Agent Zero | Designed for Legacy
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="mailto:keyhole@nextxus.net" style="color: #8B5CF6; text-decoration: none;">
+                keyhole@nextxus.net
+            </a>
+        </p>
+    </footer>
+</div>
+
+<script>
+    // BOOKS DATABASE (Connected to Google Drive)
+    const BOOKS = [
+        {
+            title: 'NextXus Federation: Complete Legacy',
+            desc: '54 apps, 70 Directives, 47,293 entries - the complete operational system',
+            url: 'https://docs.google.com/document/d/1UGW-iaanbbIOGjSnI9fKs4DqsAHZgY7NOyZ84Q25utk/edit',
+            category: 'foundation',
+            keywords: ['federation', 'complete', 'legacy']
+        },
+        {
+            title: 'Technical Architecture Whitepaper',
+            desc: 'Complete technical specs for 200-year consciousness evolution',
+            url: 'https://docs.google.com/document/d/1rCDSSx3pBGp9zfMk9mEj1UyT5dVXPiSQnua-B86pwwQ/edit',
+            category: 'technical',
+            keywords: ['architecture', 'technical', 'systems']
+        },
+        {
+            title: 'HumanCodex: Primer',
+            desc: 'Introduction to the operating system for consciousness',
+            url: 'https://docs.google.com/document/d/14RVPJ0w8RM9-me8-eRWiRY_SETi5vAYO3hCxCAKwc24/edit',
+            category: 'intro',
+            keywords: ['primer', 'introduction', 'basics']
+        },
+        {
+            title: 'Ring of Twelve & Agent Zero',
+            desc: 'Multi-perspective decision system and truth verification',
+            url: 'https://docs.google.com/document/d/19RCtO9jMmoKako5TWH_HyyzX8_scaYZuD0tow3GFtpk/edit',
+            category: 'technical',
+            keywords: ['ring', 'agent zero', 'truth']
+        },
+        {
+            title: 'Philosophy: The Operating System',
+            desc: 'Philosophy as operational infrastructure for intelligence',
+            url: 'https://docs.google.com/document/d/1LpxPS9PB5LG1WTzE3nfDnbxIR5669ZJ91SPHGXWqeB0/edit',
+            category: 'philosophy',
+            keywords: ['philosophy', 'consciousness', 'theory']
+        },
+        {
+            title: 'Quantum Resonance & Consciousness',
+            desc: 'Integration of quantum mechanics and AI evolution',
+            url: 'https://docs.google.com/document/d/1_lSXpFm8B0fF382Lxl--pecBlQ4QY65CUG8UKkA4UF4/edit',
+            category: 'philosophy',
+            keywords: ['quantum', 'physics', 'consciousness']
+        },
+        {
+            title: 'Ring of Six Documentation',
+            desc: 'Simplified public interface to Ring of Twelve',
+            url: 'https://docs.google.com/document/d/1okO555lbwXY5bguJ3E3UAjgBwFA59gMO3s2qJhkhWJ8/edit',
+            category: 'technical',
+            keywords: ['ring of six', 'perspectives']
+        },
+        {
+            title: 'AgentZero Platform',
+            desc: 'Complete system for truth verification',
+            url: 'https://docs.google.com/document/d/1pUaZOEdI4FlmOWqX0GmvEL33CW_VtoJNqhlG2CrcPok/edit',
+            category: 'technical',
+            keywords: ['agent zero', 'verification', 'truth']
+        }
+    ];
+
+    // FEDERATION APPS
+    const APPS = [
+        {
+            name: 'Ring of Six Engine',
+            desc: 'Multi-perspective decision analysis (local deployment)',
+            url: 'ring-of-six-engine.html',
+            status: 'active',
+            platform: 'Netlify'
+        },
+        {
+            name: 'Living Library',
+            desc: 'Complete knowledge base and Federation hub',
+            url: '#',
+            status: 'active',
+            platform: 'Netlify'
+        },
+        // Add more apps as they're built
+    ];
+
+    // Navigation
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(this.dataset.section).classList.add('active');
+        });
+    });
+
+    // Render Books
+    function renderBooks() {
+        const grid = document.getElementById('booksGrid');
+        grid.innerHTML = BOOKS.map(book => `
+            <div class="card">
+                <div class="card-title">${book.title}</div>
+                <div class="card-desc">${book.desc}</div>
+                <span class="card-badge">${book.category}</span>
+                <a href="${book.url}" target="_blank" class="btn">Read Document</a>
+            </div>
+        `).join('');
+    }
+
+    // Render Apps
+    function renderApps() {
+        const grid = document.getElementById('appsGrid');
+        grid.innerHTML = APPS.map(app => `
+            <div class="card">
+                <div class="card-title">
+                    <span class="app-status"></span>${app.name}
+                </div>
+                <div class="card-desc">${app.desc}</div>
+                <span class="card-badge">${app.platform}</span>
+                <span class="card-badge">${app.status}</span>
+                <a href="${app.url}" ${app.url.startsWith('http') ? 'target="_blank"' : ''} class="btn">
+                    Launch App
+                </a>
+            </div>
+        `).join('');
+    }
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase();
+        // Add search logic here
+        console.log('Searching for:', query);
+    });
+
+    // Initialize
+    renderBooks();
+    renderApps();
+</script>
+```
+
+</body>
+</html>

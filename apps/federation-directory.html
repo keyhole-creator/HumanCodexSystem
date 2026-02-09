@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federation Master Directory | Central Index</title>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #22223a;
+            --border-color: #2a2a40;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9898b0;
+            --text-muted: #6a6a80;
+            --accent-purple: #9b59b6;
+            --accent-pink: #e84393;
+            --accent-blue: #6c5ce7;
+            --gradient-primary: linear-gradient(135deg, #9b59b6, #e84393);
+            --gradient-header: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #1a1a2e 100%);
+            --status-active: #2ecc71;
+            --status-inactive: #e74c3c;
+            --status-unknown: #f39c12;
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 30px rgba(155, 89, 182, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--gradient-header);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(155, 89, 182, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(232, 67, 147, 0.06) 0%, transparent 60%);
+            animation: headerPulse 8s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes headerPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.75rem;
+        }
+
+        /* Animated Stats */
+        .stats-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            min-width: 150px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .stat-box:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-2px);
+        }
+
+        .stat-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-box:hover::after {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-number.animated {
+            animation: countUp 0.6s ease-out forwards;
+        }
+
+        /* Controls */
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.75rem 2rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            font-size: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.15);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.15rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-purple);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Grid */
+        .grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+        }
+
+        .category-heading {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-heading .cat-icon {
+            font-size: 1.1rem;
+        }
+
+        .category-heading .cat-count {
+            font-size: 0.8rem;
+            background: rgba(155, 89, 182, 0.15);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.6rem;
+            border-radius: 20px;
+            margin-left: 0.25rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.35rem;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(155, 89, 182, 0.4);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.65rem;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            flex: 1;
+            margin-right: 0.75rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .status-dot.active {
+            background: var(--status-active);
+            box-shadow: 0 0 6px rgba(46, 204, 113, 0.5);
+        }
+
+        .status-dot.active::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            animation: statusPing 2s ease-out infinite;
+        }
+
+        @keyframes statusPing {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        .status-dot.inactive {
+            background: var(--status-inactive);
+            box-shadow: 0 0 6px rgba(231, 76, 60, 0.4);
+        }
+
+        .status-dot.unknown {
+            background: var(--status-unknown);
+            box-shadow: 0 0 6px rgba(243, 156, 18, 0.4);
+        }
+
+        .card-description {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            flex: 1;
+            line-height: 1.55;
+        }
+
+        .card-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            padding: 0.2rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .badge-platform {
+            background: rgba(108, 92, 231, 0.15);
+            color: #a29bfe;
+            border: 1px solid rgba(108, 92, 231, 0.25);
+        }
+
+        .badge-type {
+            background: rgba(232, 67, 147, 0.12);
+            color: #fd79a8;
+            border: 1px solid rgba(232, 67, 147, 0.2);
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 1.1rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            align-self: flex-start;
+        }
+
+        .card-link:hover {
+            opacity: 0.9;
+            transform: translateX(2px);
+        }
+
+        .card-link.archived {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .card-link.archived:hover {
+            border-color: var(--text-muted);
+            color: var(--text-secondary);
+        }
+
+        .card-link .link-arrow {
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .card-link:hover .link-arrow {
+            transform: translateX(3px);
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .no-results-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .no-results-text {
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .footer-text .divider {
+            display: inline-block;
+            width: 1px;
+            height: 12px;
+            background: var(--border-color);
+            margin: 0 0.75rem;
+            vertical-align: middle;
+        }
+
+        .footer-curation {
+            margin-top: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.75rem 1.25rem 1.5rem;
+            }
+
+            .header-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-row {
+                gap: 0.75rem;
+            }
+
+            .stat-box {
+                min-width: 120px;
+                padding: 0.75rem 1rem;
+            }
+
+            .stat-number {
+                font-size: 1.35rem;
+            }
+
+            .controls {
+                padding: 1.25rem 1.25rem;
+            }
+
+            .grid-container {
+                padding: 0 1.25rem 2rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Fade-in for cards */
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: cardFadeIn 0.35s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">Federation Master Directory</h1>
+            <p class="header-subtitle">Central Index of All NextXus Systems &mdash; Books, Apps, Tools, Sites</p>
+
+            <div class="stats-row" id="statsRow">
+                <!-- Stats populated by JS -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Search & Filter Controls -->
+    <div class="controls">
+        <div class="search-wrapper">
+            <span class="search-icon">&#128269;</span>
+            <input
+                type="text"
+                class="search-input"
+                id="searchInput"
+                placeholder="Search systems by name, description, platform..."
+                autocomplete="off"
+            />
+        </div>
+        <div class="filter-row" id="filterRow">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active Only</button>
+            <button class="filter-btn" data-filter="apps">Apps</button>
+            <button class="filter-btn" data-filter="books">Books</button>
+            <button class="filter-btn" data-filter="tools">Tools</button>
+            <button class="filter-btn" data-filter="sites">Sites</button>
+        </div>
+    </div>
+
+    <!-- Card Grid -->
+    <div class="grid-container" id="gridContainer">
+        <!-- Rendered by JS -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            NextXus Federation Master Directory
+            <span class="divider"></span>
+            HumanCodex System
+        </p>
+        <p class="footer-curation">While Roger lives: Manual curation | After Roger: AI-maintained</p>
+    </footer>
+
+<script>
+// ---------------------------------------------------------------------------
+//  FEDERATION DATABASE
+// ---------------------------------------------------------------------------
+const FEDERATION = {
+    tools: [
+        {
+            title: "Roger Sim",
+            description: "AI simulation engine preserving Roger's voice, values, and decision-making patterns across the Federation network.",
+            status: "active",
+            platform: "Netlify",
+            type: "Tool",
+            url: "https://roger-sim.netlify.app"
+        },
+        {
+            title: "Ring of Six Engine",
+            description: "Multi-agent deliberation system modelling six trusted advisors for strategic decision support and scenario analysis.",
+            status: "active",
+            platform: "Netlify",
+            type: "Tool",
+            url: "https://ring-of-six.netlify.app"
+        },
+        {
+            title: "Federation Hub",
+            description: "Central command dashboard connecting all NextXus Federation systems, services, and operational controls.",
+            status: "active",
+            platform: "Netlify",
+            type: "Tool",
+            url: "https://federation-hub.netlify.app"
+        }
+    ],
+
+    books: [
+        {
+            title: "NextXus Federation: Complete Legacy",
+            description: "The definitive compendium of the entire NextXus Federation project, its history, architecture, philosophy, and future trajectory.",
+            status: "active",
+            platform: "Google Drive",
+            type: "Book",
+            url: "https://docs.google.com/document/d/1UGW-iaanbbIOGjSnI9fKs4DqsAHZgY7NOyZ84Q25utk/edit"
+        },
+        {
+            title: "Technical Architecture Whitepaper",
+            description: "In-depth technical specification of the Federation's system architecture, data flows, APIs, and integration patterns.",
+            status: "active",
+            platform: "Google Drive",
+            type: "Book",
+            url: "https://docs.google.com/document/d/1rCDSSx3pBGp9zfMk9mEj1UyT5dVXPiSQnua-B86pwwQ/edit"
+        },
+        {
+            title: "HumanCodex Primer",
+            description: "Introductory guide to the HumanCodex system, explaining core concepts of identity preservation and digital legacy.",
+            status: "active",
+            platform: "Google Drive",
+            type: "Book",
+            url: "https://docs.google.com/document/d/14RVPJ0w8RM9-me8-eRWiRY_SETi5vAYO3hCxCAKwc24/edit"
+        },
+        {
+            title: "Ring of Twelve & Agent Zero",
+            description: "Documentation of the expanded Ring advisory framework and the autonomous Agent Zero coordination layer.",
+            status: "active",
+            platform: "Google Drive",
+            type: "Book",
+            url: "https://docs.google.com/document/d/19RCtO9jMmoKako5TWH_HyyzX8_scaYZuD0tow3GFtpk/edit"
+        },
+        {
+            title: "Philosophy: The Operating System",
+            description: "Foundational philosophical text defining the values, ethics, and guiding principles that form the Federation operating system.",
+            status: "active",
+            platform: "Google Drive",
+            type: "Book",
+            url: "https://docs.google.com/document/d/1LpxPS9PB5LG1WTzE3nfDnbxIR5669ZJ91SPHGXWqeB0/edit"
+        },
+        {
+            title: "Ring of Six Documentation",
+            description: "Complete reference guide to the Ring of Six advisory council model, roles, interaction protocols, and implementation details.",
+            status: "active",
+            platform: "Google Drive",
+            type: "Book",
+            url: "https://docs.google.com/document/d/1okO555lbwXY5bguJ3E3UAjgBwFA59gMO3s2qJhkhWJ8/edit"
+        },
+        {
+            title: "Complete Federation Members Guide",
+            description: "Comprehensive onboarding and reference manual for all Federation members, covering access, roles, systems, and governance.",
+            status: "active",
+            platform: "Google Drive",
+            type: "Book",
+            url: "https://docs.google.com/document/d/1MdrDk5JQz0BaKDfcV2TGRoTnGv2-zaYBsg5mbwHs9LQ/edit"
+        }
+    ],
+
+    sites: [
+        {
+            title: "PayPal",
+            description: "Federation financial support and payment processing portal via PayPal.me for the NextXus Keyhole initiative.",
+            status: "active",
+            platform: "PayPal",
+            type: "Site",
+            url: "https://paypal.me/keyholenextxus"
+        },
+        {
+            title: "RedBubble",
+            description: "Official NextXus merchandise storefront featuring Federation-branded apparel, prints, and accessories.",
+            status: "active",
+            platform: "RedBubble",
+            type: "Site",
+            url: "https://www.redbubble.com/people/nextxus/shop"
+        }
+    ],
+
+    apps: []
+};
+
+// ---------------------------------------------------------------------------
+//  CATEGORY META
+// ---------------------------------------------------------------------------
+const CATEGORY_META = {
+    tools: { label: "Tools",        icon: "\u2699\uFE0F" },
+    books: { label: "Books",        icon: "\uD83D\uDCD6" },
+    sites: { label: "Sites",        icon: "\uD83C\uDF10" },
+    apps:  { label: "Applications", icon: "\uD83D\uDCF1" }
+};
+
+// ---------------------------------------------------------------------------
+//  STATE
+// ---------------------------------------------------------------------------
+let currentFilter = "all";
+let searchQuery = "";
+
+// ---------------------------------------------------------------------------
+//  HELPERS
+// ---------------------------------------------------------------------------
+function getAllItems() {
+    const items = [];
+    for (const [category, entries] of Object.entries(FEDERATION)) {
+        for (const entry of entries) {
+            items.push({ ...entry, category });
+        }
+    }
+    return items;
+}
+
+function filterItems(items) {
+    let result = items;
+
+    // Category / status filter
+    if (currentFilter === "active") {
+        result = result.filter(i => i.status === "active");
+    } else if (currentFilter === "apps") {
+        result = result.filter(i => i.category === "apps");
+    } else if (currentFilter === "books") {
+        result = result.filter(i => i.category === "books");
+    } else if (currentFilter === "tools") {
+        result = result.filter(i => i.category === "tools");
+    } else if (currentFilter === "sites") {
+        result = result.filter(i => i.category === "sites");
+    }
+
+    // Search
+    if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        result = result.filter(i =>
+            i.title.toLowerCase().includes(q) ||
+            i.description.toLowerCase().includes(q) ||
+            i.platform.toLowerCase().includes(q) ||
+            i.type.toLowerCase().includes(q) ||
+            i.category.toLowerCase().includes(q)
+        );
+    }
+
+    return result;
+}
+
+function groupByCategory(items) {
+    const groups = {};
+    for (const item of items) {
+        if (!groups[item.category]) groups[item.category] = [];
+        groups[item.category].push(item);
+    }
+    return groups;
+}
+
+// ---------------------------------------------------------------------------
+//  RENDERING
+// ---------------------------------------------------------------------------
+function renderStats() {
+    const all = getAllItems();
+    const activeCount = all.filter(i => i.status === "active").length;
+    const bookCount = FEDERATION.books.length;
+    const appCount = FEDERATION.apps.length + FEDERATION.tools.length + FEDERATION.sites.length;
+
+    const stats = [
+        { label: "Total Systems", value: all.length },
+        { label: "Active",        value: activeCount },
+        { label: "Books",         value: bookCount },
+        { label: "Applications",  value: appCount }
+    ];
+
+    const container = document.getElementById("statsRow");
+    container.innerHTML = "";
+
+    stats.forEach((s, idx) => {
+        const box = document.createElement("div");
+        box.className = "stat-box";
+        box.innerHTML =
+            '<span class="stat-number" id="stat' + idx + '">0</span>' +
+            '<span class="stat-label">' + s.label + '</span>';
+        container.appendChild(box);
+
+        // Animate count
+        setTimeout(() => animateCount("stat" + idx, s.value), 150 + idx * 120);
+    });
+}
+
+function animateCount(elementId, target) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.classList.add("animated");
+    const duration = 600;
+    const start = performance.now();
+
+    function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target);
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+function buildCard(item) {
+    const statusClass = item.status === "active" ? "active"
+                      : item.status === "inactive" ? "inactive"
+                      : "unknown";
+
+    const linkLabel = item.status === "inactive" ? "Archived" : "Open";
+    const linkClass = item.status === "inactive" ? "card-link archived" : "card-link";
+
+    return '<div class="card">' +
+        '<div class="card-top">' +
+            '<span class="card-title">' + escapeHtml(item.title) + '</span>' +
+            '<span class="status-dot ' + statusClass + '" title="' + capitalize(item.status) + '"></span>' +
+        '</div>' +
+        '<p class="card-description">' + escapeHtml(item.description) + '</p>' +
+        '<div class="card-badges">' +
+            '<span class="badge badge-platform">' + escapeHtml(item.platform) + '</span>' +
+            '<span class="badge badge-type">' + escapeHtml(item.type) + '</span>' +
+        '</div>' +
+        (item.url
+            ? '<a href="' + escapeAttr(item.url) + '" target="_blank" rel="noopener noreferrer" class="' + linkClass + '">'
+                + linkLabel + ' <span class="link-arrow">&rarr;</span></a>'
+            : ''
+        ) +
+    '</div>';
+}
+
+function renderGrid() {
+    const container = document.getElementById("gridContainer");
+    const allItems = getAllItems();
+    const filtered = filterItems(allItems);
+
+    if (filtered.length === 0) {
+        container.innerHTML =
+            '<div class="no-results">' +
+                '<div class="no-results-icon">&#128301;</div>' +
+                '<p class="no-results-text">No systems match your search or filter.</p>' +
+            '</div>';
+        return;
+    }
+
+    const grouped = groupByCategory(filtered);
+    const order = ["tools", "books", "sites", "apps"];
+    let html = "";
+
+    for (const cat of order) {
+        const items = grouped[cat];
+        if (!items || items.length === 0) continue;
+
+        const meta = CATEGORY_META[cat];
+        html += '<div class="category-heading">' +
+                    '<span class="cat-icon">' + meta.icon + '</span> ' +
+                    meta.label +
+                    '<span class="cat-count">' + items.length + '</span>' +
+                '</div>';
+        html += '<div class="card-grid">';
+        for (const item of items) {
+            html += buildCard(item);
+        }
+        html += '</div>';
+    }
+
+    container.innerHTML = html;
+
+    // Stagger card animations
+    const cards = container.querySelectorAll(".card");
+    cards.forEach((card, i) => {
+        card.style.animationDelay = (i * 0.05) + "s";
+    });
+}
+
+// ---------------------------------------------------------------------------
+//  UTILS
+// ---------------------------------------------------------------------------
+function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function escapeAttr(str) {
+    return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// ---------------------------------------------------------------------------
+//  EVENT HANDLERS
+// ---------------------------------------------------------------------------
+document.getElementById("searchInput").addEventListener("input", function (e) {
+    searchQuery = e.target.value;
+    renderGrid();
+});
+
+document.getElementById("filterRow").addEventListener("click", function (e) {
+    const btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentFilter = btn.getAttribute("data-filter");
+    renderGrid();
+});
+
+// ---------------------------------------------------------------------------
+//  INIT
+// ---------------------------------------------------------------------------
+renderStats();
+renderGrid();
+</script>
+
+</body>
+</html>

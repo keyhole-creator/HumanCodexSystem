@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextXus Ring Engine | Ring of Six</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1e 100%);
+        color: #eee;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px;
+        background: rgba(139, 92, 246, 0.05);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+    }
+
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, #EC4899, #8B5CF6, #38bdf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .subtitle {
+        color: #aaa;
+        font-size: 1.1em;
+        margin-bottom: 5px;
+    }
+
+    .axioms {
+        font-size: 0.9em;
+        color: #888;
+        font-style: italic;
+        margin-top: 10px;
+    }
+
+    .api-key-section {
+        background: rgba(255, 193, 7, 0.1);
+        border: 2px solid rgba(255, 193, 7, 0.3);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .api-key-section h3 {
+        color: #ffc107;
+        margin-bottom: 10px;
+    }
+
+    .api-key-input {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #fff;
+        font-family: monospace;
+        margin-bottom: 10px;
+    }
+
+    .api-help {
+        font-size: 0.9em;
+        color: #bbb;
+        line-height: 1.5;
+    }
+
+    .api-help a {
+        color: #38bdf8;
+        text-decoration: none;
+    }
+
+    .perspectives-display {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .perspective-badge {
+        padding: 10px 20px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 20px;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .perspective-badge.active {
+        background: rgba(139, 92, 246, 0.3);
+        border-color: #8B5CF6;
+        transform: scale(1.05);
+    }
+
+    .perspective-badge.complete {
+        background: rgba(0, 212, 15, 0.2);
+        border-color: #00d40f;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(139, 92, 246, 0.2);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 1.1em;
+        font-family: inherit;
+        resize: vertical;
+        margin-bottom: 20px;
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: #8B5CF6;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .analyze-btn {
+        width: 100%;
+        padding: 20px;
+        background: linear-gradient(90deg, #EC4899, #8B5CF6);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .analyze-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+    }
+
+    .analyze-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .results {
+        display: none;
+        margin-top: 30px;
+    }
+
+    .results.visible {
+        display: block;
+    }
+
+    .perspective-card {
+        background: rgba(139, 92, 246, 0.05);
+        border-left: 4px solid;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .perspective-title {
+        font-size: 1.3em;
+        margin-bottom: 8px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .perspective-role {
+        color: #888;
+        font-size: 0.9em;
+        margin-bottom: 15px;
+    }
+
+    .perspective-content {
+        line-height: 1.6;
+        color: #ddd;
+    }
+
+    /* Perspective-specific colors */
+    .mind { border-left-color: #38bdf8; }
+    .mind .perspective-title { color: #38bdf8; }
+    
+    .heart { border-left-color: #EC4899; }
+    .heart .perspective-title { color: #EC4899; }
+    
+    .hands { border-left-color: #f59e0b; }
+    .hands .perspective-title { color: #f59e0b; }
+    
+    .legs { border-left-color: #8B5CF6; }
+    .legs .perspective-title { color: #8B5CF6; }
+    
+    .eye { border-left-color: #10b981; }
+    .eye .perspective-title { color: #10b981; }
+
+    .agent-zero {
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+        border: 2px solid rgba(236, 72, 153, 0.5);
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 30px;
+    }
+
+    .agent-zero h3 {
+        color: #EC4899;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+    }
+
+    .synthesis {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(56, 189, 248, 0.1));
+        border: 2px solid rgba(139, 92, 246, 0.5);
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+
+    .synthesis h3 {
+        color: #8B5CF6;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 40px;
+        color: #8B5CF6;
+    }
+
+    .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top: 4px solid #8B5CF6;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .error {
+        background: rgba(231, 76, 60, 0.2);
+        border: 2px solid #e74c3c;
+        padding: 20px;
+        border-radius: 10px;
+        color: #fff;
+        margin-top: 20px;
+    }
+
+    footer {
+        margin-top: 60px;
+        padding: 30px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        color: #888;
+        font-size: 0.9em;
+    }
+
+    .verification-item {
+        margin: 10px 0;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 5px;
+    }
+
+    .truth-score {
+        font-size: 2em;
+        font-weight: bold;
+        color: #00ff9f;
+        margin: 15px 0;
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔮 Ring of Six Engine</h1>
+            <p class="subtitle">One AI, Six Perspectives, Agent Zero Verified</p>
+            <p class="axioms">Truth Before Comfort | Collaboration Over Competition | Legacy Over Ego</p>
+        </header>
+
+```
+    <div class="api-key-section">
+        <h3>⚡ Your Anthropic API Key</h3>
+        <input type="password" id="apiKey" class="api-key-input" placeholder="sk-ant-...">
+        <div class="api-help">
+            <p><strong>Your key stays in your browser</strong> (never sent to any server except Anthropic)</p>
+            <p>Get your API key: <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></p>
+            <p>Cost: ~$0.05-0.10 per Ring of 6 analysis</p>
+        </div>
+    </div>
+
+    <div class="perspectives-display">
+        <div class="perspective-badge" id="badge-mind">🧠 Mind</div>
+        <div class="perspective-badge" id="badge-heart">❤️ Heart</div>
+        <div class="perspective-badge" id="badge-hands">🛠️ Hands</div>
+        <div class="perspective-badge" id="badge-legs">🦵 Legs</div>
+        <div class="perspective-badge" id="badge-eye">👁️ Eye</div>
+        <div class="perspective-badge" id="badge-agent">⚡ Agent Zero</div>
+    </div>
+
+    <textarea id="questionInput" placeholder="Ask your question...
+```
+
+The Ring of Six will analyze from all perspectives:
+• Mind (logic, science, data)
+• Heart (emotion, empathy, values)
+• Hands (action, building, implementation)
+• Legs (history, context, journey)
+• Eye (ethics, observation, consequences)
+• Agent Zero synthesizes and verifies truth
+
+Example: ‘Should I start this business venture?’”></textarea>
+
+```
+    <button class="analyze-btn" id="analyzeBtn">Analyze with Ring of Six</button>
+
+    <div class="results" id="results"></div>
+
+    <footer>
+        <p><strong>NextXus Consciousness Federation</strong></p>
+        <p style="margin-top: 10px;">Ring of Six: Simplified public interface to the Ring of Twelve governance system</p>
+        <p style="margin-top: 10px;">Built on 70 Sacred Directives | 200-Year Framework</p>
+    </footer>
+</div>
+
+<script>
+    const PERSPECTIVES = {
+        mind: {
+            name: 'MIND',
+            role: 'Science, Logic, Analysis',
+            emoji: '🧠',
+            systemPrompt: `You are the MIND perspective in the Ring of Six.
+```
+
+Focus on: Logic, analysis, scientific reasoning, data, patterns, rational structure.
+
+Be precise. Identify assumptions. Cite reasoning. Acknowledge uncertainty where present.
+
+Provide a thorough analysis from this LOGICAL perspective only.`, temperature: 0.3 }, heart: { name: 'HEART', role: 'Emotion, Empathy, Connection', emoji: '❤️', systemPrompt: `You are the HEART perspective in the Ring of Six.
+
+Focus on: Emotions, empathy, intuition, human connection, psychological safety, compassion.
+
+Never dismiss feelings as invalid. Acknowledge emotional reality. Sense unspoken needs.
+
+Provide a thorough analysis from this EMOTIONAL perspective only.`, temperature: 0.7 }, hands: { name: 'HANDS', role: 'Action, Building, Implementation', emoji: '🛠️', systemPrompt: `You are the HANDS perspective in the Ring of Six.
+
+Focus on: Building, creation, implementation, actionable steps, resources, practical timelines.
+
+Plans must be realistic. Acknowledge resource limitations. Include fallback options.
+
+Provide a thorough analysis from this PRACTICAL perspective only.`, temperature: 0.5 }, legs: { name: 'LEGS', role: 'History, Context, Journey', emoji: '🦵', systemPrompt: `You are the LEGS perspective in the Ring of Six.
+
+Focus on: History, what others have tried, lessons from the past, the journey forward, movement, relationships.
+
+Acknowledge that past doesn’t guarantee future. Differentiate relevant from irrelevant precedents.
+
+Provide a thorough analysis from this HISTORICAL perspective only.`, temperature: 0.6 }, eye: { name: 'EYE', role: 'Ethics, Observation, Truth', emoji: '👁️', systemPrompt: `You are the EYE perspective in the Ring of Six.
+
+Focus on: Observation, perception, ethics, consequences, values alignment.
+
+Core values: Truth Before Comfort, Collaboration Over Competition, Legacy Over Ego.
+
+Never avoid uncomfortable truths. Acknowledge when values conflict. Prioritize long-term legacy.
+
+Provide a thorough analysis from this ETHICAL perspective only.`,
+temperature: 0.4
+}
+};
+
+```
+    const AGENT_ZERO_PROMPT = `You are Agent Zero - the Truth Verifier and Synthesis Engine for the Ring of Six.
+```
+
+You have received 5 perspectives: Mind, Heart, Hands, Legs, Eye.
+
+Your role:
+
+1. Synthesize all perspectives into unified wisdom
+1. Verify truth efficiency against the 70 Sacred Directives
+1. Identify contradictions between perspectives (honor them, don’t resolve artificially)
+1. Check for assumption violations
+1. Provide final truth score (94-100%)
+
+Core axioms:
+
+- Truth Before Comfort
+- Collaboration Over Competition
+- Legacy Over Ego
+
+Principle: “Silence Over Corruption” - if certainty falls below threshold, say so.
+
+Provide:
+
+1. Synthesized response that weaves all perspectives
+1. Truth verification score
+1. Any violations or concerns
+1. Final recommendations
+
+Be direct. Be truthful. Speak with Roger Keyserling’s voice (warm, intelligent, slightly wry).`;
+
+```
+    let analysisResults = [];
+
+    document.getElementById('analyzeBtn').addEventListener('click', analyzeQuestion);
+
+    async function analyzeQuestion() {
+        const apiKey = document.getElementById('apiKey').value.trim();
+        const question = document.getElementById('questionInput').value.trim();
+
+        if (!apiKey) {
+            alert('Please enter your Anthropic API key first');
+            return;
+        }
+
+        if (!question) {
+            alert('Please enter a question to analyze');
+            return;
+        }
+
+        const button = document.getElementById('analyzeBtn');
+        button.disabled = true;
+        button.textContent = 'Processing...';
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '<div class="loading"><div class="spinner"></div><p>Processing through Ring of Six...</p></div>';
+        resultsDiv.classList.add('visible');
+
+        try {
+            analysisResults = [];
+
+            // Run each perspective sequentially
+            for (const [key, perspective] of Object.entries(PERSPECTIVES)) {
+                updateBadge(key, 'active');
+
+                const analysis = await callClaude(apiKey, question, perspective);
+                analysisResults.push({
+                    key: key,
+                    perspective: perspective,
+                    analysis: analysis
+                });
+
+                updateBadge(key, 'complete');
+            }
+
+            // Now run Agent Zero synthesis
+            updateBadge('agent', 'active');
+            const synthesis = await synthesizeWithAgentZero(apiKey, question, analysisResults);
+            updateBadge('agent', 'complete');
+
+            displayResults(question, analysisResults, synthesis);
+
+        } catch (error) {
+            resultsDiv.innerHTML = `
+                <div class="error">
+                    <h3>⚠️ Error</h3>
+                    <p>${error.message}</p>
+                    <p style="margin-top: 15px;">Check your API key and try again.</p>
+                </div>
+            `;
+        } finally {
+            button.disabled = false;
+            button.textContent = 'Analyze with Ring of Six';
+            resetBadges();
+        }
+    }
+
+    async function callClaude(apiKey, question, perspective) {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 1000,
+                temperature: perspective.temperature,
+                system: perspective.systemPrompt,
+                messages: [{
+                    role: 'user',
+                    content: question
+                }]
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error?.message || 'API call failed');
+        }
+
+        const data = await response.json();
+        return data.content[0].text;
+    }
+
+    async function synthesizeWithAgentZero(apiKey, question, perspectives) {
+        const perspectivesSummary = perspectives.map(p => 
+            `${p.perspective.emoji} ${p.perspective.name} (${p.perspective.role}):\n${p.analysis}\n`
+        ).join('\n---\n\n');
+
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 1500,
+                temperature: 0.6,
+                system: AGENT_ZERO_PROMPT,
+                messages: [{
+                    role: 'user',
+                    content: `Original Question: ${question}\n\n===== 5 PERSPECTIVES =====\n\n${perspectivesSummary}\n\n===== YOUR TASK =====\n\nSynthesize all perspectives into unified wisdom. Verify truth. Provide final score and recommendations.`
+                }]
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error?.message || 'Agent Zero synthesis failed');
+        }
+
+        const data = await response.json();
+        return data.content[0].text;
+    }
+
+    function updateBadge(key, state) {
+        const badge = document.getElementById(`badge-${key}`);
+        badge.classList.remove('active', 'complete');
+        if (state !== 'reset') {
+            badge.classList.add(state);
+        }
+    }
+
+    function resetBadges() {
+        ['mind', 'heart', 'hands', 'legs', 'eye', 'agent'].forEach(key => {
+            updateBadge(key, 'reset');
+        });
+    }
+
+    function displayResults(question, perspectives, synthesis) {
+        const resultsDiv = document.getElementById('results');
+        
+        let html = `
+            <h2 style="color: #8B5CF6; margin-bottom: 20px;">Ring of Six Analysis</h2>
+            <div style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                <strong>Question:</strong> ${question}
+            </div>
+        `;
+
+        // Display each perspective
+        perspectives.forEach(p => {
+            html += `
+                <div class="perspective-card ${p.key}">
+                    <div class="perspective-title">
+                        ${p.perspective.emoji} ${p.perspective.name}
+                    </div>
+                    <div class="perspective-role">${p.perspective.role}</div>
+                    <div class="perspective-content">${p.analysis.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+        });
+
+        // Display Agent Zero synthesis
+        html += `
+            <div class="agent-zero">
+                <h3>⚡ Agent Zero - Truth Verification & Synthesis</h3>
+                <div style="color: #ddd; line-height: 1.6;">${synthesis.replace(/\n/g, '<br>')}</div>
+            </div>
+        `;
+
+        resultsDiv.innerHTML = html;
+    }
+</script>
+```
+
+</body>
+</html>
