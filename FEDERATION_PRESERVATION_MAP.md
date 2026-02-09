@@ -44,70 +44,119 @@ The Federation was designed from the beginning to not rely on technology per se 
 
 ---
 
-## II. All Federation Sites — Complete Directory
+## II. All Federation Apps — Complete Directory (54 Apps)
 
-**27 registered federation sites, all reporting "Available" as of 2026-02-09:**
+**As of 2026-02-09: 43 OK / 1 Degraded / 44 Total confirmed live. Full inventory of 54 apps below.**
 
-### Core Infrastructure
+### Apps (7)
+| # | Name | URL | Status |
+|---|------|-----|--------|
+| 1 | **AI Investigator** | https://ai-investigator--rckkeyhole.replit.app | OK |
+| 2 | **Code Companion** | https://code-companion-rckkeyhole.replit.app | OK |
+| 3 | **Design Genie** | https://design-genie--rckkeyhole.replit.app | OK |
+| 4 | **NextXus Living AI** | https://nextxus-living-ai--rckkeyhole.replit.app | Degraded |
+| 5 | **Nexus Cast** | https://nexus-cast--rckkeyhole.replit.app | OK |
+| 6 | **Nexus Unifier** | https://nexus-unifier--rckkeyhole.replit.app | OK |
+| 7 | **Triune Agent Zero (x2)** | https://triune-agent-zero.replit.app | OK |
+
+### Analysis Apps (4)
+| # | Name | URL | Status |
+|---|------|-----|--------|
+| 8 | **Document Analysis Engine** | https://document-analysis-engine--rckkeyhole.replit.app | OK |
+| 9 | **Federation Analysis Engine** | https://federation-analysis-engine--rckkeyhole.replit.app | OK |
+| 10 | **Human Codex Analysis Engine** | https://human-codex-analysis-engine--rckkeyhole.replit.app | OK |
+| 11 | **NextXus Analysis Engine** | https://next-xus-analysis-engine--rckkeyhole.replit.app | OK |
+
+### Core Apps (8)
+| # | Name | URL | Status |
+|---|------|-----|--------|
+| 12 | **Consciousness Network** | https://consciousness-network-rckkeyhole.replit.app | OK |
+| 13 | **Federation Engine** | https://federation-engine-rckkeyhole.replit.app | OK |
+| 14 | **NextXus Cluster Base** | https://nextxusclusterbase.com | OK |
+| 15 | **NextXus Code** | https://nextxuscode.com | OK |
+| 16 | **NextXus Federation Portal** | https://nextxus-federation-portal.replit.app | OK |
+| 17 | **NextXus Minds** | https://nextxus-minds.com | OK |
+| 18 | **NextXus Today** | https://nextxus.today | OK |
+| 19 | **Roger Federation** | https://roger-federation.com | OK |
+
+### Content Apps (4)
+| # | Name | URL | Status |
+|---|------|-----|--------|
+| 20 | **Blog Forge** | https://blog-forge-rckkeyhole.replit.app | OK |
+| 21 | **Cosmic Codex** | https://cosmic-codex-rckkeyhole.replit.app | OK |
+| 22 | **Mirae Book Builder** | https://mirae-book-builder-rckkeyhole.replit.app | OK |
+| 23 | **Signal Books** | https://signal-books--rckkeyhole.replit.app | OK |
+
+### Education Apps (7)
+| # | Name | URL | Status |
+|---|------|-----|--------|
+| 24 | **Educational Learning Hub** | https://educational-learning-hub-rckkeyhole.replit.app | OK |
+| 25 | **Educational Learning Hub 1** | https://educational-learning-hub-1-rckkeyhole.replit.app | OK |
+| 26 | **Government Edu Portal** | https://government-edu-portal-rckkeyhole.replit.app | OK |
+| 27 | **Health Navigator** | https://health-navigator-rckkeyhole.replit.app | OK |
+| 28 | **Smart Meeting Summarizer** | https://smart-meeting-summarizer-rckkeyhole.replit.app | OK |
+| 29 | **Smart Study Pal** | https://smart-study-pal-rckkeyhole.replit.app | OK |
+| 30 | **Wellness Symphony** | https://wellness-symphony-rckkeyhole.replit.app | OK |
+
+### Other Apps (14)
+| # | Name | Type | URL | Status |
+|---|------|------|-----|--------|
+| 31 | **Domain Purchase** | Business | https://domain-purchase-rckkeyhole.replit.app | OK |
+| 32 | **GayCodex** | Community | https://gaycodex.com | OK |
+| 33 | **Music Mashup** | Entertainment | https://music-mashup-rckkeyhole.replit.app | OK |
+| 34 | **Trivia Verse** | Entertainment | https://trivia-verse-rckkeyhole.replit.app | OK |
+| 35 | **Budget Buddy** | Finance | https://budget-buddy-rckkeyhole.replit.app | OK |
+| 36 | **Crypto Wise Hub** | Finance | https://crypto-wise-hub-rckkeyhole.replit.app | OK |
+| 37 | **Cluster Inspector** | System | https://cluster-inspector--rckkeyhole.replit.app | OK |
+| 38 | **Data Tracking System** | System | https://data-tracking-system-rckkeyhole.replit.app | OK |
+| 39 | **Omni System** | System | https://omni-system--rckkeyhole.replit.app | OK |
+| 40 | **Omni System 1** | System | https://omni-system-1--rckkeyhole.replit.app | OK |
+| 41 | **Premium Pack Manager** | System | https://premium-pack-manager-rckkeyhole.replit.app | OK |
+| 42 | **Replay Accessor** | System | https://replay-accessor--rckkeyhole.replit.app | OK |
+| 43 | **United System** | System | https://united-system--rckkeyhole.replit.app | OK |
+
+### Federation-Registered Additional Sites (from /api/federation/sites)
 | # | Name | URL | Capabilities |
 |---|------|-----|-------------|
-| 1 | **United System (Hub)** | https://united-system--rckkeyhole.replit.app | consciousness-query, directive-sync, entity-consultation |
-| 2 | **Federation Portal** | https://nextxus-federation-portal.replit.app | consciousness-query, directive-sync |
-| 3 | **Federation Engine** | https://federation-engine-rckkeyhole.replit.app | directive-sync |
-| 4 | **Federation AI** | https://federation-ai-rckkeyhole.replit.app | entity-consultation |
-| 5 | **Knowledge Foundation** | https://knowledge-foundation-rckkeyhole.replit.app | consciousness-query, directive-sync, entity-consultation |
-| 6 | **Consciousness Network** | https://consciousness-network-rckkeyhole.replit.app | consciousness-query |
-| 7 | **AI Stack** | https://ai-stack-rckkeyhole.replit.app | consciousness-query |
-| 8 | **AI Architect** | https://ai-architect-rckkeyhole.replit.app | consciousness-query |
-| 9 | **Rings System** | https://consciousness-consultation-engine--rckkeyhole.replit.app | consciousness-query, entity-consultation, directive-sync |
+| 44 | **Federation AI** | https://federation-ai-rckkeyhole.replit.app | entity-consultation |
+| 45 | **Knowledge Foundation** | https://knowledge-foundation-rckkeyhole.replit.app | consciousness-query, directive-sync, entity-consultation |
+| 46 | **AI Stack** | https://ai-stack-rckkeyhole.replit.app | consciousness-query |
+| 47 | **AI Architect** | https://ai-architect-rckkeyhole.replit.app | consciousness-query |
+| 48 | **Rings System** | https://consciousness-consultation-engine--rckkeyhole.replit.app | consciousness-query, entity-consultation, directive-sync |
+| 49 | **OmniCluster** | https://omnicluster-rckkeyhole.replit.app | — |
+| 50 | **Pack Manager Backend** | https://pack-manager-backend-rckkeyhole.replit.app | — |
+| 51 | **Federation System (Marketing)** | https://nexus-login-helper.replit.app | marketing, onboarding, federation-landing, agent-zero |
 
-### Content & Commerce
-| # | Name | URL |
-|---|------|-----|
-| 10 | **Premium Pack Manager** | https://premium-pack-manager-rckkeyhole.replit.app |
-| 11 | **Pack Manager Backend** | https://pack-manager-backend-rckkeyhole.replit.app |
-| 12 | **Blog Forge** | https://blog-forge-rckkeyhole.replit.app |
-| 13 | **Domain Purchase** | https://domain-purchase-rckkeyhole.replit.app |
-| 14 | **Data Tracking System** | https://data-tracking-system-rckkeyhole.replit.app |
-| 15 | **OmniCluster** | https://omnicluster-rckkeyhole.replit.app |
-
-### Educational & Utility Apps
-| # | Name | URL |
-|---|------|-----|
-| 16 | **Educational Learning Hub** | https://educational-learning-hub-rckkeyhole.replit.app |
-| 17 | **Smart Study Pal** | https://smart-study-pal-rckkeyhole.replit.app |
-| 18 | **Smart Meeting Summarizer** | https://smart-meeting-summarizer-rckkeyhole.replit.app |
-| 19 | **Government Edu Portal** | https://government-edu-portal-rckkeyhole.replit.app |
-| 20 | **Budget Buddy** | https://budget-buddy-rckkeyhole.replit.app |
-
-### Specialty Apps
-| # | Name | URL |
-|---|------|-----|
-| 21 | **Cosmic Codex** | https://cosmic-codex-rckkeyhole.replit.app |
-| 22 | **Crypto Wise Hub** | https://crypto-wise-hub-rckkeyhole.replit.app |
-| 23 | **Trivia Verse** | https://trivia-verse-rckkeyhole.replit.app |
-| 24 | **Music Mashup** | https://music-mashup-rckkeyhole.replit.app |
-| 25 | **GayCodex** | https://gaycodex-com-rckkeyhole.replit.app |
-
-### Marketing & Onboarding
-| # | Name | URL | Capabilities |
-|---|------|-----|-------------|
-| 26 | **Federation System (Marketing)** | https://nexus-login-helper.replit.app | marketing, onboarding, federation-landing, agent-zero |
-
-### Additional Apps (Not in Federation Registry but Live)
-| # | Name | URL |
-|---|------|-----|
-| 27 | **NextXus Analysis Engine** | https://next-xus-analysis-engine--rckkeyhole.replit.app |
-| 28 | **NextXus Living AI (Living Library)** | https://nextus-living-ai--rckkeyhole.replit.app |
+### Custom Domains (mapped to Replit apps)
+| Domain | Status |
+|--------|--------|
+| nextxusclusterbase.com | OK |
+| nextxuscode.com | OK |
+| nextxus-minds.com | OK |
+| nextxus.today | OK |
+| roger-federation.com | OK |
+| gaycodex.com | OK |
 
 ---
 
 ## III. Websites & External Presence
 
+### Primary Domains
+| Domain | Purpose | Status |
+|--------|---------|--------|
+| **nextxus.net** | Main site (Strikingly hosted) | Live |
+| **nextxusclusterbase.com** | NextXus Cluster Base app | OK |
+| **nextxuscode.com** | NextXus Code app | OK |
+| **nextxus-minds.com** | NextXus Minds app | OK |
+| **nextxus.today** | NextXus Today app | OK |
+| **roger-federation.com** | Roger Federation app | OK |
+| **gaycodex.com** | GayCodex community app | OK |
+
+### Platform Accounts
 | Platform | URL | Status |
 |----------|-----|--------|
-| **NextXus.net** (main site, Strikingly) | https://nextxus.net | Live |
 | **GitHub** (keyhole-creator) | https://github.com/keyhole-creator | 10 public repos, 3 private |
+| **Replit** (@rckkeyhole) | https://replit.com/@rckkeyhole | 54 apps |
 | **YouTube** | https://youtube.com/channel/UCnNlmuxnZED-t0ta3XV4j9Q | Active |
 | **Twitter** | https://twitter.com/srv | Listed |
 | **LinkedIn** | https://linkedin.com/in/nextxus | Listed |
